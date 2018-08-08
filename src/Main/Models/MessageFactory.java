@@ -18,18 +18,35 @@ public class MessageFactory
 		writer.endObject();
 		return stringWriter.toString();
 	}
-
-	public static String getChatMessage()
 	
+
+	public static String action(String action, Consumer<JSONWriter> message)
 	{
-		String chatMessage = "";
-		return new ChatMessage(chatMessage).toString();
+		return json("application", writer ->
+		{
+			writer.object();
+			writer.key("action").value(action);
+			message.accept(writer);
+			writer.endObject();
+		});
+	}
+
+	public static String getChatMessage(ChatMessage chatMessage)
+	{
+		return json("chat", writer ->
+		{
+			writer.value(chatMessage.ChatMessage);
+		});
 	}
 	
-	public static String getHitMessage()
+	public static String getHitMessage(HitMessage hitMessage)
 	{
-		boolean hit = false;
-		return new HitMessage(hit).toString();
+		return action("hit", writer ->
+		{
+			writer.object();
+			writer.key("hit").value(hitMessage.Hit);
+			writer.endObject();
+		});
 	}
 	
 	public static String getMoveMessage()
