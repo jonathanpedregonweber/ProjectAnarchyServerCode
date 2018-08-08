@@ -7,6 +7,6 @@ public class HitMessage extends Message
     public HitMessage(boolean hit)
     {
         super("Hit");
-        Hit = hit;
+        this.Hit = hit;
     }
 }

@@ -6,6 +6,6 @@ public class Message
 
     public Message(String type)
     {
-        Type = type;
+        this.Type = type;
     }
 }

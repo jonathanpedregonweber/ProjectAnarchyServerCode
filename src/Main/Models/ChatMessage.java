@@ -6,6 +6,6 @@ public class ChatMessage extends Message
     public ChatMessage(String chatMessage)
     {
         super("Chat");
-        ChatMessage = chatMessage;
+        this.ChatMessage = chatMessage;
     }
 }

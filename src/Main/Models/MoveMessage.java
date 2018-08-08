@@ -8,7 +8,7 @@ public class MoveMessage extends Message
     public MoveMessage(int xCoordinate, int yCoordinate)
     {
         super("Move");
-        XCoordinate = xCoordinate;
-        YCoordinate = yCoordinate;
+        this.XCoordinate = xCoordinate;
+        this.YCoordinate = yCoordinate;
     }
 }
