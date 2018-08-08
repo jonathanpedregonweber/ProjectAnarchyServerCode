@@ -1,33 +1,51 @@
 package Main.Models;
 
+import java.io.StringWriter;
+import java.util.function.Consumer;
+
+import org.json.JSONWriter;
+
 public class MessageFactory
 {
-	public static ChatMessage ChatMessage()
+	public static String json(String type, Consumer<JSONWriter> message)
+	{
+		StringWriter stringWriter = new StringWriter();
+		JSONWriter writer = new JSONWriter(stringWriter);
+		writer.object();
+		writer.key("type").value(type);
+		writer.key("message");
+		message.accept(writer);
+		writer.endObject();
+		return stringWriter.toString();
+	}
+
+	public static String getChatMessage()
+	
 	{
 		String chatMessage = "";
-		return new ChatMessage(chatMessage);
+		return new ChatMessage(chatMessage).toString();
 	}
 	
-	public static HitMessage HitMessage()
+	public static String getHitMessage()
 	{
 		boolean hit = false;
-		return new HitMessage(hit);
+		return new HitMessage(hit).toString();
 	}
 	
-	public static MoveMessage MoveMessage()
+	public static String getMoveMessage()
 	{
 		int xCoordinate = 0;
 		int yCoordinate = 0;
-		return new MoveMessage(xCoordinate, yCoordinate);
+		return new MoveMessage(xCoordinate, yCoordinate).toString();
 	}
 	
-	public static StartMessage StartMessage()
+	public static String getStartMessage()
 	{
-		return new StartMessage();
+		return new StartMessage().toString();
 	}
 	
-	public static WinMessage WinMessage()
+	public static String getWinMessage()
 	{
-		return new WinMessage();
+		return new WinMessage().toString();
 	}
 }
