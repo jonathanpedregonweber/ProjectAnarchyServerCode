@@ -2,12 +2,11 @@ package Main.Models;
 
 import java.io.StringWriter;
 import java.util.function.Consumer;
-
 import org.json.JSONWriter;
 
-public class MessageFactory
+class MessageFactory
 {
-	public static String json(String type, Consumer<JSONWriter> message)
+	private static String json(String type, Consumer<JSONWriter> message)
 	{
 		StringWriter stringWriter = new StringWriter();
 		JSONWriter writer = new JSONWriter(stringWriter);
@@ -19,7 +18,7 @@ public class MessageFactory
 		return stringWriter.toString();
 	}
 	
-	public static String action(String action, Consumer<JSONWriter> message)
+	private static String action(String action, Consumer<JSONWriter> message)
 	{
 		return json("application", writer ->
 		{
@@ -30,7 +29,7 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getChatMessage(ChatMessage chatMessage)
+	static String getChatMessage(ChatMessage chatMessage)
 	{
 		return json("chat", writer ->
 		{
@@ -38,7 +37,7 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getHitMessage(HitMessage hitMessage)
+	static String getHitMessage(HitMessage hitMessage)
 	{
 		return action("hit", writer ->
 		{
@@ -46,7 +45,7 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getMoveMessage(MoveMessage moveMessage)
+	static String getMoveMessage(MoveMessage moveMessage)
 	{
 		return action("hit", writer ->
 		{
@@ -55,7 +54,7 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getStartMessage(StartMessage startMessage)
+	static String getStartMessage(StartMessage startMessage)
 	{
 		return action("start", writer ->
 		{
@@ -63,7 +62,7 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getWinMessage(WinMessage winMessage)
+	static String getWinMessage(WinMessage winMessage)
 	{
 		return action("win", writer ->
 		{
