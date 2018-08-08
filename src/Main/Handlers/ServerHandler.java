@@ -1,49 +1,47 @@
 package Main.Handlers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import Main.Models.*;
+
 public class ServerHandler
 {
-	public PrintWriter Writer;
-	public BufferedReader Reader;
+	private static PrintWriter Writer;
 	
 	public ServerHandler(Socket socket)
 	{
 		try {
-			this.Reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			this.Writer = new PrintWriter(socket.getOutputStream());
+			ServerHandler.Writer = new PrintWriter(socket.getOutputStream());
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void SendChatMessage(@SuppressWarnings("unused") String chatMessage)
+	public static void SendChatMessage(String chatMessage)
 	{
-		//
+		Writer.println(MessageFactory.getChatMessage(new ChatMessage(chatMessage)));
 	}
 	
-	public void SendHitMessage(@SuppressWarnings("unused") boolean hit)
+	public void SendHitMessage(boolean hit)
 	{
-		//
+		Writer.println(MessageFactory.getHitMessage(new HitMessage(hit)));
 	}
 	
-	public void SendMoveMessage(@SuppressWarnings("unused") int xCoordinate, @SuppressWarnings("unused") int yCoordinate)
+	public void SendMoveMessage(int xCoordinate, int yCoordinate)
 	{
-		//
+		Writer.println(MessageFactory.getMoveMessage(new MoveMessage(xCoordinate, yCoordinate)));
 	}
 	
 	public void SendStartMessage()
 	{
-		//
+		Writer.println(MessageFactory.getStartMessage(new StartMessage()));
 	}
 	
 	public void WinMessage()
 	{
-		//
+		Writer.println(MessageFactory.getWinMessage(new WinMessage()));
 	}
 }

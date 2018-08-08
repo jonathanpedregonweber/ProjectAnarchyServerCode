@@ -4,7 +4,7 @@ import java.io.StringWriter;
 import java.util.function.Consumer;
 import org.json.JSONWriter;
 
-class MessageFactory
+public class MessageFactory
 {
 	private static String json(String type, Consumer<JSONWriter> message)
 	{
@@ -29,7 +29,7 @@ class MessageFactory
 		});
 	}
 	
-	static String getChatMessage(ChatMessage chatMessage)
+	public static String getChatMessage(ChatMessage chatMessage)
 	{
 		return json("chat", writer ->
 		{
@@ -37,7 +37,7 @@ class MessageFactory
 		});
 	}
 	
-	static String getHitMessage(HitMessage hitMessage)
+	public static String getHitMessage(HitMessage hitMessage)
 	{
 		return action("hit", writer ->
 		{
@@ -45,7 +45,7 @@ class MessageFactory
 		});
 	}
 	
-	static String getMoveMessage(MoveMessage moveMessage)
+	public static String getMoveMessage(MoveMessage moveMessage)
 	{
 		return action("hit", writer ->
 		{
@@ -54,7 +54,7 @@ class MessageFactory
 		});
 	}
 	
-	static String getStartMessage(StartMessage startMessage)
+	public static String getStartMessage(StartMessage startMessage)
 	{
 		return action("start", writer ->
 		{
@@ -62,7 +62,7 @@ class MessageFactory
 		});
 	}
 	
-	static String getWinMessage(WinMessage winMessage)
+	public static String getWinMessage(WinMessage winMessage)
 	{
 		return action("win", writer ->
 		{
