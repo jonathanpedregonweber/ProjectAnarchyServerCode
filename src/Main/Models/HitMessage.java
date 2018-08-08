@@ -1,0 +1,12 @@
+package Main.Models;
+
+public class HitMessage extends Message
+{
+    public boolean Hit;
+
+    public HitMessage(boolean hit)
+    {
+        super("Hit");
+        Hit = hit;
+    }
+}
