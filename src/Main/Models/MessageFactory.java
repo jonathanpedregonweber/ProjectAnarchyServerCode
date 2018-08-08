@@ -19,7 +19,6 @@ public class MessageFactory
 		return stringWriter.toString();
 	}
 	
-
 	public static String action(String action, Consumer<JSONWriter> message)
 	{
 		return json("application", writer ->
@@ -30,7 +29,7 @@ public class MessageFactory
 			writer.endObject();
 		});
 	}
-
+	
 	public static String getChatMessage(ChatMessage chatMessage)
 	{
 		return json("chat", writer ->
@@ -43,26 +42,32 @@ public class MessageFactory
 	{
 		return action("hit", writer ->
 		{
-			writer.object();
 			writer.key("hit").value(hitMessage.Hit);
-			writer.endObject();
 		});
 	}
 	
-	public static String getMoveMessage()
+	public static String getMoveMessage(MoveMessage moveMessage)
 	{
-		int xCoordinate = 0;
-		int yCoordinate = 0;
-		return new MoveMessage(xCoordinate, yCoordinate).toString();
+		return action("hit", writer ->
+		{
+			writer.key("x").value(moveMessage.XCoordinate);
+			writer.key("y").value(moveMessage.YCoordinate);
+		});
 	}
 	
-	public static String getStartMessage()
+	public static String getStartMessage(StartMessage startMessage)
 	{
-		return new StartMessage().toString();
+		return action("start", writer ->
+		{
+			startMessage.getClass();
+		});
 	}
 	
-	public static String getWinMessage()
+	public static String getWinMessage(WinMessage winMessage)
 	{
-		return new WinMessage().toString();
+		return action("win", writer ->
+		{
+			winMessage.getClass();
+		});
 	}
 }
