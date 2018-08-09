@@ -6,6 +6,8 @@ import org.json.JSONWriter;
 
 public class MessageFactory
 {
+	private static String moduleString = "Battleship2";
+
 	private static String json(String type, Consumer<JSONWriter> message)
 	{
 		StringWriter stringWriter = new StringWriter();
@@ -23,6 +25,7 @@ public class MessageFactory
 		return json("application", writer ->
 		{
 			writer.object();
+			writer.key("module").value(moduleString);
 			writer.key("action").value(action);
 			message.accept(writer);
 			writer.endObject();
@@ -47,7 +50,7 @@ public class MessageFactory
 	
 	public static String getMoveMessage(MoveMessage moveMessage)
 	{
-		return action("hit", writer ->
+		return action("move", writer ->
 		{
 			writer.key("x").value(moveMessage.XCoordinate);
 			writer.key("y").value(moveMessage.YCoordinate);
