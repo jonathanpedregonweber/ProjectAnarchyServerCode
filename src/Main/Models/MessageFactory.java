@@ -29,24 +29,27 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getChatMessage(ChatMessage chatMessage)
+	public static String getChatMessage(String messageText)
 	{
+		ChatMessage chatMessage = new ChatMessage(messageText);
 		return json("chat", writer ->
 		{
 			writer.value(chatMessage.ChatMessage);
 		});
 	}
 	
-	public static String getHitMessage(HitMessage hitMessage)
+	public static String getHitMessage(boolean hit)
 	{
+		HitMessage hitMessage = new HitMessage(hit);
 		return action("hit", writer ->
 		{
 			writer.key("hit").value(hitMessage.Hit);
 		});
 	}
 	
-	public static String getMoveMessage(MoveMessage moveMessage)
+	public static String getMoveMessage(int xCoordinate, int yCoordinate)
 	{
+		MoveMessage moveMessage = new MoveMessage(xCoordinate, yCoordinate);
 		return action("hit", writer ->
 		{
 			writer.key("x").value(moveMessage.XCoordinate);
@@ -54,16 +57,18 @@ public class MessageFactory
 		});
 	}
 	
-	public static String getStartMessage(StartMessage startMessage)
+	public static String getStartMessage()
 	{
+		StartMessage startMessage = new StartMessage();
 		return action("start", writer ->
 		{
 			startMessage.getClass();
 		});
 	}
 	
-	public static String getWinMessage(WinMessage winMessage)
+	public static String getWinMessage()
 	{
+		WinMessage winMessage = new WinMessage();
 		return action("win", writer ->
 		{
 			winMessage.getClass();

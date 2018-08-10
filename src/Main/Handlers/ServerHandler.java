@@ -22,26 +22,26 @@ public class ServerHandler
 	
 	public static void SendChatMessage(String chatMessage)
 	{
-		Writer.println(MessageFactory.getChatMessage(new ChatMessage(chatMessage)));
+		Writer.println(MessageFactory.getChatMessage(chatMessage));
 	}
 	
 	public void SendHitMessage(boolean hit)
 	{
-		Writer.println(MessageFactory.getHitMessage(new HitMessage(hit)));
+		Writer.println(MessageFactory.getHitMessage(hit));
 	}
 	
 	public void SendMoveMessage(int xCoordinate, int yCoordinate)
 	{
-		Writer.println(MessageFactory.getMoveMessage(new MoveMessage(xCoordinate, yCoordinate)));
+		Writer.println(MessageFactory.getMoveMessage(xCoordinate, yCoordinate));
 	}
 	
 	public void SendStartMessage()
 	{
-		Writer.println(MessageFactory.getStartMessage(new StartMessage()));
+		Writer.println(MessageFactory.getStartMessage());
 	}
 	
 	public void WinMessage()
 	{
-		Writer.println(MessageFactory.getWinMessage(new WinMessage()));
+		Writer.println(MessageFactory.getWinMessage());
 	}
 }
