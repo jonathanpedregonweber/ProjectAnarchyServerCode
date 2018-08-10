@@ -3,11 +3,10 @@ package Main;
 import Main.Models.ChatMessage;
 import Main.Models.HitMessage;
 import Main.Models.MessageFactory;
-/*0
 import Main.Models.MoveMessage;
 import Main.Models.StartMessage;
 import Main.Models.WinMessage;
-*/
+
 public class Main
 {
 	public static void main(String[] args)
@@ -26,13 +25,11 @@ public class Main
 		ChatMessage chatMessage = (ChatMessage) MessageFactory.parse(chatString);
 		@SuppressWarnings("unused")
 		HitMessage hitMessage = (HitMessage) MessageFactory.parse(hitString);
-		/*0
 		@SuppressWarnings("unused")
 		MoveMessage moveMessage = (MoveMessage) MessageFactory.parse(moveString);
 		@SuppressWarnings("unused")
 		StartMessage startMessage = (StartMessage) MessageFactory.parse(startString);
 		@SuppressWarnings("unused")
 		WinMessage winMessage = (WinMessage) MessageFactory.parse(winString);
-		*/
 	}
 }

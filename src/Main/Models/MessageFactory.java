@@ -43,12 +43,24 @@ public class MessageFactory
 		}
 		return value;
 	}
-
+	
 	private static boolean getBoolean(JSONObject object, String key)
 	{
 		boolean value = false;
 		try {
 			value = object.getBoolean(key);
+		}
+		catch (org.json.JSONException exception) {
+			System.out.println(exception.getMessage());
+		}
+		return value;
+	}
+
+	private static int getInt(JSONObject object, String key)
+	{
+		int value = 0;
+		try {
+			value = object.getInt(key);
 		}
 		catch (org.json.JSONException exception) {
 			System.out.println(exception.getMessage());
@@ -67,7 +79,7 @@ public class MessageFactory
 		}
 		return value;
 	}
-
+	
 	public static String getChatMessage(String messageText)
 	{
 		ChatMessage chatMessage = new ChatMessage(messageText);
@@ -92,13 +104,12 @@ public class MessageFactory
 		});
 	}
 	
-	
 	private static HitMessage setHitMessage(JSONObject jsonObject)
 	{
 		boolean Hit = getBoolean(jsonObject, "hit");
 		return new HitMessage(Hit);
 	}
-
+	
 	public static String getMoveMessage(int xCoordinate, int yCoordinate)
 	{
 		MoveMessage moveMessage = new MoveMessage(xCoordinate, yCoordinate);
@@ -107,6 +118,13 @@ public class MessageFactory
 			writer.key("x").value(moveMessage.XCoordinate);
 			writer.key("y").value(moveMessage.YCoordinate);
 		});
+	}
+	
+	private static MoveMessage setMoveMessage(JSONObject jsonObject)
+	{
+		int x = getInt(jsonObject, "x");
+		int y = getInt(jsonObject, "y");
+		return new MoveMessage(x,y);
 	}
 	
 	public static String getStartMessage()
@@ -118,6 +136,12 @@ public class MessageFactory
 		});
 	}
 	
+	private static StartMessage setStartMessage(JSONObject jsonObject)
+	{
+		jsonObject.getClass();
+		return new StartMessage();
+	}
+	
 	public static String getWinMessage()
 	{
 		WinMessage winMessage = new WinMessage();
@@ -125,6 +149,12 @@ public class MessageFactory
 		{
 			winMessage.getClass();
 		});
+	}
+	
+	private static WinMessage setWinMessage(JSONObject jsonObject)
+	{
+		jsonObject.getClass();
+		return new WinMessage();
 	}
 	
 	public static Message parse(String json)
@@ -136,9 +166,19 @@ public class MessageFactory
 		if (type.equals("application")) {
 			JSONObject message = getObject(object, "message");
 			String action = getString(message, "action");
-			switch (action) {
+			switch (action)
+			{
 				case "hit":
 					jsonMessage = setHitMessage(message);
+					break;
+				case "move":
+					jsonMessage = setMoveMessage(message);
+					break;
+				case "start":
+					jsonMessage = setStartMessage(message);
+					break;
+				case "win":
+					jsonMessage = setWinMessage(message);
 					break;
 				default:
 					jsonMessage = null;
@@ -146,7 +186,7 @@ public class MessageFactory
 			}
 		}
 		else {
-			jsonMessage = setChatMessage(object);			
+			jsonMessage = setChatMessage(object);
 		}
 		return jsonMessage;
 	}
