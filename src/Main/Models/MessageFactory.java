@@ -32,7 +32,7 @@ public class MessageFactory
 		});
 	}
 	
-	private static String parse(JSONObject object, String key)
+	private static String getString(JSONObject object, String key)
 	{
 		String value = "";
 		try {
@@ -43,7 +43,31 @@ public class MessageFactory
 		}
 		return value;
 	}
-	
+
+	private static boolean getBoolean(JSONObject object, String key)
+	{
+		boolean value = false;
+		try {
+			value = object.getBoolean(key);
+		}
+		catch (org.json.JSONException exception) {
+			System.out.println(exception.getMessage());
+		}
+		return value;
+	}
+
+	private static JSONObject getObject(JSONObject object, String key)
+	{
+		JSONObject value = object;
+		try {
+			value = object.getJSONObject(key);
+		}
+		catch (org.json.JSONException exception) {
+			System.out.println(exception.getMessage());
+		}
+		return value;
+	}
+
 	public static String getChatMessage(String messageText)
 	{
 		ChatMessage chatMessage = new ChatMessage(messageText);
@@ -55,7 +79,7 @@ public class MessageFactory
 	
 	private static ChatMessage setChatMessage(JSONObject jsonObject)
 	{
-		String chatMessage = parse(jsonObject, "message");
+		String chatMessage = getString(jsonObject, "message");
 		return new ChatMessage(chatMessage);
 	}
 	
@@ -68,10 +92,17 @@ public class MessageFactory
 		});
 	}
 	
+	
+	private static HitMessage setHitMessage(JSONObject jsonObject)
+	{
+		boolean Hit = getBoolean(jsonObject, "hit");
+		return new HitMessage(Hit);
+	}
+
 	public static String getMoveMessage(int xCoordinate, int yCoordinate)
 	{
 		MoveMessage moveMessage = new MoveMessage(xCoordinate, yCoordinate);
-		return action("hit", writer ->
+		return action("move", writer ->
 		{
 			writer.key("x").value(moveMessage.XCoordinate);
 			writer.key("y").value(moveMessage.YCoordinate);
@@ -98,17 +129,25 @@ public class MessageFactory
 	
 	public static Message parse(String json)
 	{
-		Message message = null;
+		Message jsonMessage;
 		JSONTokener tokener = new JSONTokener(json);
 		JSONObject object = new JSONObject(tokener);
-		String type = parse(object, "type");
+		String type = getString(object, "type");
 		if (type.equals("application")) {
-			message = setChatMessage(object);			
-
+			JSONObject message = getObject(object, "message");
+			String action = getString(message, "action");
+			switch (action) {
+				case "hit":
+					jsonMessage = setHitMessage(message);
+					break;
+				default:
+					jsonMessage = null;
+					break;
+			}
 		}
 		else {
-			message = setChatMessage(object);			
+			jsonMessage = setChatMessage(object);			
 		}
-		return message;
+		return jsonMessage;
 	}
 }
