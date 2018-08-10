@@ -102,8 +102,12 @@ public class MessageFactory
 		JSONTokener tokener = new JSONTokener(json);
 		JSONObject object = new JSONObject(tokener);
 		String type = parse(object, "type");
-		if (type.equals("chat")) {
-			message = setChatMessage(object);
+		if (type.equals("application")) {
+			message = setChatMessage(object);			
+
+		}
+		else {
+			message = setChatMessage(object);			
 		}
 		return message;
 	}
