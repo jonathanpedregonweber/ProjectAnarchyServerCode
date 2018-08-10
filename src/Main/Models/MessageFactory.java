@@ -36,14 +36,14 @@ public class MessageFactory
 	
 	public static String getChatMessage(ChatMessage chatMessage)
 	{
-		return getChatMessage(chatMessage.ChatMessage);
+		return getChatMessage(chatMessage.chatMessage);
 	}
 	
-	public static String getChatMessage(String messageText)
+	public static String getChatMessage(String chatMessage)
 	{
 		return json("chat", writer ->
 		{
-			writer.value(messageText);
+			writer.value(chatMessage);
 		});
 	}
 	
@@ -55,15 +55,14 @@ public class MessageFactory
 	
 	public static String getHitMessage(HitMessage hitMessage)
 	{
-		return getHitMessage(hitMessage.Hit);
+		return getHitMessage(hitMessage.hit);
 	}
 	
 	public static String getHitMessage(boolean hit)
 	{
-		HitMessage hitMessage = new HitMessage(hit);
 		return action("hit", writer ->
 		{
-			writer.key("hit").value(hitMessage.Hit);
+			writer.key("hit").value(hit);
 		});
 	}
 	
@@ -75,15 +74,15 @@ public class MessageFactory
 	
 	public static String getMoveMessage(MoveMessage moveMessage)
 	{
-		return getMoveMessage(moveMessage.XCoordinate, moveMessage.YCoordinate);
+		return getMoveMessage(moveMessage.xCoordinate, moveMessage.yCoordinate);
 	}
 	
-	public static String getMoveMessage(int XCoordinate, int YCoordinate)
+	public static String getMoveMessage(int xCoordinate, int yCoordinate)
 	{
 		return action("move", writer ->
 		{
-			writer.key("x").value(XCoordinate);
-			writer.key("y").value(YCoordinate);
+			writer.key("x").value(xCoordinate);
+			writer.key("y").value(yCoordinate);
 		});
 	}
 	
