@@ -28,6 +28,7 @@ public class MessageFactory
 		return json("application", writer ->
 		{
 			writer.object();
+			writer.key("module").value(MODULE);
 			writer.key("action").value(action);
 			message.accept(writer);
 			writer.endObject();
@@ -70,6 +71,26 @@ public class MessageFactory
 	{
 		boolean hit = json.getBoolean("hit");
 		return new HitMessage(hit);
+	}
+	
+	public static String getLoginMessage(LoginMessage loginMessage)
+	{
+		return getLoginMessage(loginMessage.userName);
+	}
+	
+	public static String getLoginMessage(String userName)
+	{
+		return json("login", writer ->
+		{
+			writer.value(userName);
+		});
+	}
+	
+	@SuppressWarnings("unused")
+	private static LoginMessage setLoginMessage(JSONObject json)
+	{
+		String userName = json.getString("message");
+		return new LoginMessage(userName);
 	}
 	
 	public static String getMoveMessage(MoveMessage moveMessage)
