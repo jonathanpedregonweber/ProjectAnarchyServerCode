@@ -34,12 +34,16 @@ public class MessageFactory
 		});
 	}
 	
+	public static String getChatMessage(ChatMessage chatMessage)
+	{
+		return getChatMessage(chatMessage.ChatMessage);
+	}
+	
 	public static String getChatMessage(String messageText)
 	{
-		ChatMessage chatMessage = new ChatMessage(messageText);
 		return json("chat", writer ->
 		{
-			writer.value(chatMessage.ChatMessage);
+			writer.value(messageText);
 		});
 	}
 	
@@ -47,6 +51,11 @@ public class MessageFactory
 	{
 		String chatMessage = json.getString("message");
 		return new ChatMessage(chatMessage);
+	}
+	
+	public static String getHitMessage(HitMessage hitMessage)
+	{
+		return getHitMessage(hitMessage.Hit);
 	}
 	
 	public static String getHitMessage(boolean hit)
@@ -64,13 +73,17 @@ public class MessageFactory
 		return new HitMessage(hit);
 	}
 	
-	public static String getMoveMessage(int xCoordinate, int yCoordinate)
+	public static String getMoveMessage(MoveMessage moveMessage)
 	{
-		MoveMessage moveMessage = new MoveMessage(xCoordinate, yCoordinate);
+		return getMoveMessage(moveMessage.XCoordinate, moveMessage.YCoordinate);
+	}
+	
+	public static String getMoveMessage(int XCoordinate, int YCoordinate)
+	{
 		return action("move", writer ->
 		{
-			writer.key("x").value(moveMessage.XCoordinate);
-			writer.key("y").value(moveMessage.YCoordinate);
+			writer.key("x").value(XCoordinate);
+			writer.key("y").value(YCoordinate);
 		});
 	}
 	
@@ -83,10 +96,9 @@ public class MessageFactory
 	
 	public static String getStartMessage()
 	{
-		StartMessage startMessage = new StartMessage();
 		return action("start", writer ->
 		{
-			startMessage.getClass();
+			//
 		});
 	}
 	
@@ -98,10 +110,9 @@ public class MessageFactory
 	
 	public static String getWinMessage()
 	{
-		WinMessage winMessage = new WinMessage();
 		return action("win", writer ->
 		{
-			winMessage.getClass();
+			//
 		});
 	}
 	
