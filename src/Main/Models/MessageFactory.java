@@ -3,6 +3,8 @@ package Main.Models;
 import java.io.StringWriter;
 import java.util.function.Consumer;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class MessageFactory
@@ -41,7 +43,7 @@ public class MessageFactory
 		});
 	}
 	
-	private static ChatMessage setChatMessage(Json json)
+	private static ChatMessage setChatMessage(JSONObject json)
 	{
 		String chatMessage = json.getString("message");
 		return new ChatMessage(chatMessage);
@@ -56,10 +58,10 @@ public class MessageFactory
 		});
 	}
 	
-	private static HitMessage setHitMessage(Json json)
+	private static HitMessage setHitMessage(JSONObject json)
 	{
-		boolean Hit = json.getBoolean("hit");
-		return new HitMessage(Hit);
+		boolean hit = json.getBoolean("hit");
+		return new HitMessage(hit);
 	}
 	
 	public static String getMoveMessage(int xCoordinate, int yCoordinate)
@@ -72,11 +74,11 @@ public class MessageFactory
 		});
 	}
 	
-	private static MoveMessage setMoveMessage(Json json)
+	private static MoveMessage setMoveMessage(JSONObject json)
 	{
-		int x = json.getInt("x");
-		int y = json.getInt("y");
-		return new MoveMessage(x, y);
+		int xCoordinate = json.getInt("x");
+		int yCoordinate = json.getInt("y");
+		return new MoveMessage(xCoordinate, yCoordinate);
 	}
 	
 	public static String getStartMessage()
@@ -88,7 +90,7 @@ public class MessageFactory
 		});
 	}
 	
-	private static StartMessage setStartMessage(Json json)
+	private static StartMessage setStartMessage(JSONObject json)
 	{
 		json.getClass();
 		return new StartMessage();
@@ -103,7 +105,7 @@ public class MessageFactory
 		});
 	}
 	
-	private static WinMessage setWinMessage(Json json)
+	private static WinMessage setWinMessage(JSONObject json)
 	{
 		json.getClass();
 		return new WinMessage();
@@ -112,34 +114,41 @@ public class MessageFactory
 	public static Message parse(String jsonString)
 	{
 		Message jsonMessage = new IgnoreMessage();
-		Json json = new Json(jsonString);
-		String type = json.getString("type");
-		if (type.equals("application")) {
-			Json message = json.getObject("message");
-			String module = message.getString("module");
-			if (module.equals(MODULE)) {
-				String action = message.getString("action");
-				switch (action)
-				{
-					case "hit":
-						jsonMessage = setHitMessage(message);
-						break;
-					case "move":
-						jsonMessage = setMoveMessage(message);
-						break;
-					case "start":
-						jsonMessage = setStartMessage(message);
-						break;
-					case "win":
-						jsonMessage = setWinMessage(message);
-						break;
-					default:
-						break;
+		try {
+			JSONTokener tokener = new JSONTokener(jsonString);
+			JSONObject json = new JSONObject(tokener);
+			String type = json.getString("type");
+			if (type.equals("application")) {
+				JSONObject message = json.getJSONObject("message");
+				String module = message.getString("module");
+				if (module.equals(MODULE)) {
+					String action = message.getString("action");
+					switch (action)
+					{
+						case "hit":
+							jsonMessage = setHitMessage(message);
+							break;
+						case "move":
+							jsonMessage = setMoveMessage(message);
+							break;
+						case "start":
+							jsonMessage = setStartMessage(message);
+							break;
+						case "win":
+							jsonMessage = setWinMessage(message);
+							break;
+						default:
+							break;
+					}
 				}
 			}
+			else {
+				jsonMessage = setChatMessage(json);
+			}
 		}
-		else {
-			jsonMessage = setChatMessage(json);
+		catch (org.json.JSONException exception) {
+			System.out.println(exception.getMessage());
+			jsonMessage = new IgnoreMessage();
 		}
 		return jsonMessage;
 	}
