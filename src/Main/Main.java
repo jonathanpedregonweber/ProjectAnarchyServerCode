@@ -11,6 +11,11 @@ public class Main
 {
 	public static void main(String[] args)
 	{
+		testMessageFactory();
+	}
+	
+	public static void testMessageFactory()
+	{
 		String chatString = MessageFactory.getChatMessage("This is the chat text");
 		String hitString = MessageFactory.getHitMessage(true);
 		String moveString = MessageFactory.getMoveMessage(0, 0);

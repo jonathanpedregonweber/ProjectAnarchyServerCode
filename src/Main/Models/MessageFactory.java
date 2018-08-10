@@ -109,10 +109,9 @@ public class MessageFactory
 		return new WinMessage();
 	}
 	
-	@SuppressWarnings("null")
 	public static Message parse(String jsonString)
 	{
-		Message jsonMessage = null;
+		Message jsonMessage = new IgnoreMessage();
 		Json json = new Json(jsonString);
 		String type = json.getString("type");
 		if (type.equals("application")) {
@@ -135,12 +134,8 @@ public class MessageFactory
 						jsonMessage = setWinMessage(message);
 						break;
 					default:
-						jsonMessage = null;
 						break;
 				}
-			}
-			else {
-				module = null;
 			}
 		}
 		else {
