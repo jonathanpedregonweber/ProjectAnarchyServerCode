@@ -2,6 +2,9 @@ package Main.Models;
 
 import java.io.StringWriter;
 import java.util.function.Consumer;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class MessageFactory
@@ -29,6 +32,18 @@ public class MessageFactory
 		});
 	}
 	
+	private static String parse(JSONObject object, String key)
+	{
+		String value = "";
+		try {
+			value = object.getString(key);
+		}
+		catch (org.json.JSONException exception) {
+			System.out.println(exception.getMessage());
+		}
+		return value;
+	}
+	
 	public static String getChatMessage(String messageText)
 	{
 		ChatMessage chatMessage = new ChatMessage(messageText);
@@ -36,6 +51,12 @@ public class MessageFactory
 		{
 			writer.value(chatMessage.ChatMessage);
 		});
+	}
+	
+	private static ChatMessage setChatMessage(JSONObject jsonObject)
+	{
+		String chatMessage = parse(jsonObject, "message");
+		return new ChatMessage(chatMessage);
 	}
 	
 	public static String getHitMessage(boolean hit)
@@ -73,5 +94,17 @@ public class MessageFactory
 		{
 			winMessage.getClass();
 		});
+	}
+	
+	public static Message parse(String json)
+	{
+		Message message = null;
+		JSONTokener tokener = new JSONTokener(json);
+		JSONObject object = new JSONObject(tokener);
+		String type = parse(object, "type");
+		if (type.equals("chat")) {
+			message = setChatMessage(object);
+		}
+		return message;
 	}
 }
