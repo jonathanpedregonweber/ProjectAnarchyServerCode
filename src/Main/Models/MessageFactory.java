@@ -37,7 +37,7 @@ public class MessageFactory
 	
 	public static String getChatMessage(ChatMessage chatMessage)
 	{
-		return getChatMessage(chatMessage.chatMessage);
+		return getChatMessage(chatMessage.chatMessage, chatMessage.username);
 	}
 	
 	public static String getChatMessage(String chatMessage)
@@ -45,6 +45,18 @@ public class MessageFactory
 		return json("chat", writer ->
 		{
 			writer.value(chatMessage);
+		});
+	}
+	
+	public static String getChatMessage(String chatMessage, String username)
+	{
+		return json("chat", writer ->
+		{
+			writer.value(chatMessage);
+			if (!username.isEmpty()) {
+				writer.key("user");
+				writer.value(username);
+			}
 		});
 	}
 	
@@ -75,14 +87,25 @@ public class MessageFactory
 	
 	public static String getLoginMessage(LoginMessage loginMessage)
 	{
-		return getLoginMessage(loginMessage.userName);
+		return getLoginMessage(loginMessage.username);
 	}
 	
-	public static String getLoginMessage(String userName)
+	public static String getLoginMessage(String username)
+	{
+		return getLoginMessage(username, "");
+	}
+	
+	public static String getLoginMessage(String username, String password)
 	{
 		return json("login", writer ->
 		{
-			writer.value(userName);
+			writer.object();
+			writer.key("username").value(username);
+			if (!password.isEmpty()) {
+				writer.key("password").value(password);
+			}
+			writer.endObject();
+			writer.value(username);
 		});
 	}
 	
