@@ -54,8 +54,7 @@ public class MessageFactory
 		{
 			writer.value(chatMessage);
 			if (!username.isEmpty()) {
-				writer.key("user");
-				writer.value(username);
+				writer.key("username").value(username);
 			}
 		});
 	}
@@ -105,7 +104,6 @@ public class MessageFactory
 				writer.key("password").value(password);
 			}
 			writer.endObject();
-			writer.value(username);
 		});
 	}
 	
