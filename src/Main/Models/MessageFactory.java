@@ -165,7 +165,6 @@ public class MessageFactory
 	
 	public static Message parse(String jsonString)
 	{
-		Message jsonMessage = new IgnoreMessage();
 		try {
 			JSONTokener tokener = new JSONTokener(jsonString);
 			JSONObject json = new JSONObject(tokener);
@@ -178,30 +177,25 @@ public class MessageFactory
 					switch (action)
 					{
 						case "hit":
-							jsonMessage = setHitMessage(message);
-							break;
+							return setHitMessage(message);
 						case "move":
-							jsonMessage = setMoveMessage(message);
-							break;
+							return setMoveMessage(message);
 						case "start":
-							jsonMessage = setStartMessage(message);
-							break;
+							return setStartMessage(message);
 						case "win":
-							jsonMessage = setWinMessage(message);
-							break;
+							return setWinMessage(message);
 						default:
-							break;
+							return new IgnoreMessage();
 					}
 				}
 			}
-			else {
-				jsonMessage = setChatMessage(json);
+			else if (type.equals("chat")) {
+				return setChatMessage(json);
 			}
 		}
 		catch (org.json.JSONException exception) {
 			System.out.println(exception.getMessage());
-			jsonMessage = new IgnoreMessage();
 		}
-		return jsonMessage;
+		return new IgnoreMessage();
 	}
 }
