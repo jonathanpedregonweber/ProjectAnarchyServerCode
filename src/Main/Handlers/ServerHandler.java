@@ -32,6 +32,12 @@ public class ServerHandler
 		Writer.flush();
 	}
 	
+	public static void SendLoginMessage(String username)
+	{
+		Writer.println(MessageFactory.getLoginMessage(username));
+		Writer.flush();
+	}
+	
 	public static void SendMoveMessage(int xCoordinate, int yCoordinate)
 	{
 		Writer.println(MessageFactory.getMoveMessage(xCoordinate, yCoordinate));
