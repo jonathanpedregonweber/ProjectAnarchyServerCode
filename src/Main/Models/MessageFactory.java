@@ -165,34 +165,48 @@ public class MessageFactory
 	
 	public static Message parse(String jsonString)
 	{
-		try {
+		try
+		{
 			JSONTokener tokener = new JSONTokener(jsonString);
 			JSONObject json = new JSONObject(tokener);
-			String type = json.getString("type");
-			if (type.equals("chat")) {
+			
+			if (json.has("type") && json.getString("type").equals("chat"))
+			{
 				return setChatMessage(json);
 			}
-			String module = json.getString("module");
-			if (module.equals(MODULE)) {
+			
+			if (json.has("module") && json.getString("module").equals("ProjectAnarchy"))
+			{
+				
 				String action = json.getString("action");
-				switch (action)
+				
+				if (action.equals("hit"))
 				{
-					case "hit":
-						return setHitMessage(json);
-					case "move":
-						return setMoveMessage(json);
-					case "start":
-						return setStartMessage(json);
-					case "win":
-						return setWinMessage(json);
-					default:
-						return new IgnoreMessage();
+					return setHitMessage(json);
+				}
+				else if (action.equals("move"))
+				{
+					return setMoveMessage(json);
+				}
+				else if (action.equals("start"))
+				{
+					return setStartMessage(json);
+				}
+				else if (action.equals("win"))
+				{
+					return setWinMessage(json);
+				}
+				else
+				{
+					return new IgnoreMessage();
 				}
 			}
 		}
-		catch (org.json.JSONException exception) {
+		catch (org.json.JSONException exception)
+		{
 			System.out.println(exception.getMessage());
 		}
+		
 		return new IgnoreMessage();
 	}
 }
