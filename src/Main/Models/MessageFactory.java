@@ -169,28 +169,25 @@ public class MessageFactory
 			JSONTokener tokener = new JSONTokener(jsonString);
 			JSONObject json = new JSONObject(tokener);
 			String type = json.getString("type");
-			if (type.equals("application")) {
-				JSONObject message = json.getJSONObject("message");
-				String module = message.getString("module");
-				if (module.equals(MODULE)) {
-					String action = message.getString("action");
-					switch (action)
-					{
-						case "hit":
-							return setHitMessage(message);
-						case "move":
-							return setMoveMessage(message);
-						case "start":
-							return setStartMessage(message);
-						case "win":
-							return setWinMessage(message);
-						default:
-							return new IgnoreMessage();
-					}
-				}
-			}
-			else if (type.equals("chat")) {
+			if (type.equals("chat")) {
 				return setChatMessage(json);
+			}
+			String module = json.getString("module");
+			if (module.equals(MODULE)) {
+				String action = json.getString("action");
+				switch (action)
+				{
+					case "hit":
+						return setHitMessage(json);
+					case "move":
+						return setMoveMessage(json);
+					case "start":
+						return setStartMessage(json);
+					case "win":
+						return setWinMessage(json);
+					default:
+						return new IgnoreMessage();
+				}
 			}
 		}
 		catch (org.json.JSONException exception) {
